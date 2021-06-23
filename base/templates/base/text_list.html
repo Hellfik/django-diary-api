@@ -1,0 +1,52 @@
+{% extends "base/base.html" %}
+
+{% block content%}
+    <form id="search" action="#" method="get">
+        <input type="text" name="search" id="search" placeholder="Rechercher" value={{search}}>
+        <input type="submit" value="Rechercher">
+    </form>
+   <h1 class="mt-4">Mes textes</h1>
+   <a href="{% url 'text-create' %}" class="btn my-5">+ Ajouter un texte</a>
+  
+   <div class="container">
+    <div class="table-responsive">
+       <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Texte</th>
+            <th scope="col">Date de création</th>
+            <th scope="col">Date de modification</th>
+            <th colspan="2">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for text in texts %}
+                <tr>
+                    <td>
+                        {{text.id}}
+                    </td>
+                    <td>
+                        {{text.text | slice:":20"}}...
+                    </td>
+                    <td>
+                        {{text.created_at}}
+                    </td>
+                    <td>
+                        {{text.modified_at}}
+                    </td>
+                    <td>
+                        <a href="{% url 'text-update' text.id %}" class="btn">Modifier</a>
+                    </td>
+                    <td>
+                        <a href="{% url 'text-delete' text.id %}" class="btn">Supprimer</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <h3>Aucun text pour le moment</h3>
+            {% endfor %}
+        </tbody>
+      </table>
+      </div>
+   </div>
+{% endblock %}
