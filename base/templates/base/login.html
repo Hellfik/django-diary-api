@@ -2,6 +2,7 @@
 {% extends "base/base.html" %}
 {% block content %}
 <div id="form">
+    {% include 'base/includes/messages.html' %}
     <h1>Se connecter</h1>
     <form action="#" method="post">
         {%csrf_token%}

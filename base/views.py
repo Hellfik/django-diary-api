@@ -4,6 +4,10 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.contrib.auth.views import LoginView
+from django.contrib import messages
+
+from rest_framework import viewsets
+from rest_framework import permissions
 
 from crispy_forms.layout import Submit
 
@@ -20,7 +24,7 @@ class CustomLoginView(LoginView):
     template_name = 'base/login.html'
     fields = '__all__'
     redirect_authenticated_user = True
-    
+    success_message = "Bienvenue sur l'application, nous sommes heureux de vous revoir"
 
     def get_success_url(self) -> str:
         return reverse_lazy('texts')
@@ -32,6 +36,7 @@ class RegisterView(FormView):
     form_class = UserCreationForm
     redirect_authenticated_user = True
     success_url = reverse_lazy('texts')
+    success_message = "Bienvenue sur l'application, nous sommes heureux de vous voir parmis nous"
 
     class Model:
         model = User
@@ -42,12 +47,15 @@ class RegisterView(FormView):
         user = form.save()
         if user is not None:
             login(self.request, user)
-        return super(RegisterView, self).form_valid(form)
+        return super(RegisterView, self).form_valid(form), self.success_message
 
     def get(self, *args, **kwargs):
         if self.request.user.is_authenticated:
+            messages.success(self.request, self.success_message)
             return redirect('texts')
         return super(RegisterView,self).get(*args, **kwargs)
+
+
 # Create your views here.
 class TextList(LoginRequiredMixin,ListView):
     model = Text
@@ -76,6 +84,7 @@ class TextCreate(LoginRequiredMixin,CreateView):
     # List all fields of the Text class
     fields = ['text']
     success_url = reverse_lazy('texts')
+    success_message = "Votre texte a bien été créé !!!"
 
     def form_valid(self, form):
         form.instance.client = self.request.user
@@ -86,9 +95,14 @@ class TextUpdate(LoginRequiredMixin,UpdateView):
     model = Text
     fields = '__all__'
     success_url = reverse_lazy('texts')
+    success_message = "Votre texte a bien été modifié !!!"
 
 
 class TextDelete(LoginRequiredMixin,DeleteView):
     model = Text
     context_object_name = 'text'
     success_url = reverse_lazy('texts')
+    success_message = "Votre texte a bien été supprimé !!!"
+
+
+

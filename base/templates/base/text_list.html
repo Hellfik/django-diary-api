@@ -1,6 +1,7 @@
 {% extends "base/base.html" %}
 
 {% block content%}
+    {% include 'base/includes/messages.html' %}
     <form id="search" action="#" method="get">
         <input type="text" name="search" id="search" placeholder="Rechercher" value={{search}}>
         <input type="submit" value="Rechercher">
@@ -49,4 +50,4 @@
       </table>
       </div>
    </div>
-{% endblock %}
+{% endblock content %}
