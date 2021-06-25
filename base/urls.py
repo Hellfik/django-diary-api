@@ -1,10 +1,11 @@
 from django.urls import path
 
-from .views import CustomLoginView, RegisterView, TextDetail, TextList, TextCreate, TextUpdate, TextDelete
+from .views import CustomLoginView, RegisterView, TextDetail, TextList, TextCreate, TextUpdate, TextDelete, homePage
 from django.contrib.auth.views import LogoutView
 
 # All urls for the base app
 urlpatterns = [
+    path('', homePage, name='home'),
     path('login/', CustomLoginView.as_view(), name="login"),
     path('logout/', LogoutView.as_view(next_page="login"), name="logout"),
     path('register/', RegisterView.as_view(), name='register'),

@@ -1,0 +1,15 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+            <img class="img-home" src="{% static 'img/home.svg' %}" alt="home page">
+        </div>
+        <div class="col-md-6">
+            <h2 class="home-title">Coach app</h2>
+            <p class="presentation-text">Cette application nous permet de récolter votre humeur journalière. Nous utilisons l'intelligence artificielle afin de resortir une emotion à partir de votre texte.</p>
+        </div>
+    </div>
+</div>
+{% endblock content %}

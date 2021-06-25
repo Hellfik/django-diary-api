@@ -124,11 +124,45 @@
       #search{
           display: flex;
       }
+
+      .img-home{
+          width: 500px;
+          height:auto;
+      }
+
+      .home-sep{
+          display:block;
+          width: 100px;
+          height:10px;
+      }
+
+      .presentation-text{
+        text-shadow: 2px 2px 10px #000;
+      }
+
+      .home-title{
+          position: relative;
+          color:#fff;
+          font-style: italic;
+          text-shadow: 2px 2px 10px #000;
+          margin-bottom: 50px;
+      }
+
+      .home-title:after{
+        content:'' ;
+        position: absolute;
+        bottom:-20px;
+        left:0;
+        width:100px;
+        height: 10px;
+        background-color: #aa8fd8;
+        transform: skewX(-20deg);
+      }
   </style>
 </head>
 <body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-sm">
-        <a class="navbar-brand" href="#">📝Life Coach</a>
+        <a class="navbar-brand" href="{% url 'home' %}">📝Life Coach</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
