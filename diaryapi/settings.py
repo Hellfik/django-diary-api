@@ -27,7 +27,6 @@ SECRET_KEY = 'django-insecure-u54!%9aoxn%*-80f9d$7xxt$khl2jc)7ejjx^yb7+$!a@bevy(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -147,3 +146,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+REST_FRAMEWORK = { 
+    'DEFAULT_SCHEMA_CLASS' : 'rest_framework.schemas.coreapi.AutoSchema',
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    'PAGE_SIZE': 10
+    
+}
+
+ALLOWED_HOSTS = ["*"]

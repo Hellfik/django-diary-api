@@ -7,7 +7,10 @@ class Text(models.Model):
     modified_at = models.DateTimeField(auto_now=True, blank=True)
     text = models.TextField(null=False, blank=False)
     client = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=False)
-    #emotion = models.ForeignKey(Emotion, on_delete=models.CASCADE, null=True, blank=True)
+    emotion = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return self.text
+
+    class Meta:
+        ordering = ('-created_at',)

@@ -20,11 +20,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
 
+import pickle
+
 
 def homePage(request):
     return render(request, 'base/home.html')
 
-
+def profilePage(request):
+    return render(request, 'base/profile.html')
 
 class CustomLoginView(LoginView):
     template_name = 'base/login.html'
@@ -46,14 +49,14 @@ class RegisterView(FormView):
 
     class Model:
         model = User
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ('username', 'password1', 'password2')
 
 
     def form_valid(self, form):
         user = form.save()
         if user is not None:
             login(self.request, user)
-        return super(RegisterView, self).form_valid(form), self.success_message
+        return super(RegisterView, self).form_valid(form)
 
     def get(self, *args, **kwargs):
         if self.request.user.is_authenticated:
@@ -92,17 +95,26 @@ class TextCreate(LoginRequiredMixin,CreateView):
     success_url = reverse_lazy('texts')
     success_message = "Votre texte a bien été créé !!!"
 
+
     def form_valid(self, form):
         form.instance.client = self.request.user
+        tfidf, model = pickle.load(open('./dl-model/lr_combined_tfidf.bin', 'rb'))
+        y_pred = model.predict(tfidf.transform([form.instance.text]))
+        form.instance.emotion = y_pred[0]
         return super(TextCreate,self).form_valid(form)
 
 
 class TextUpdate(LoginRequiredMixin,UpdateView):
     model = Text
-    fields = '__all__'
+    fields = ['text']
     success_url = reverse_lazy('texts')
     success_message = "Votre texte a bien été modifié !!!"
 
+    def form_valid(self, form):
+        tfidf, model = pickle.load(open('./dl-model/lr_combined_tfidf.bin', 'rb'))
+        y_pred = model.predict(tfidf.transform([form.instance.text]))
+        form.instance.emotion = y_pred[0]
+        return super(TextUpdate,self).form_valid(form)
 
 class TextDelete(LoginRequiredMixin,DeleteView):
     model = Text

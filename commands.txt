@@ -1,0 +1,11 @@
+# Commands used
+
+pip install djangorestframework
+pip install coreapi
+
+python manage.py startapp api 
+python manage.py startapp base
+python manage.py runserver => Run the server
+python manage.py makemigrations => Prepare changes for the database
+python manage.py migrate => Apply changes to the database
+python manage.py createsuperuser => Create admin user

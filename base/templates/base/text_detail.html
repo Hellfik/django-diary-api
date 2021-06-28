@@ -1,12 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Details</h1>
-</body>
-</html>
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="container">
+    <a href="{% url 'texts'%}" class="btn mb-5">← Retour</a>
+    <div class="card">
+        <div class="card-header" style="font-style: italic;">
+          Mon texte quotidien
+        </div>
+        <div class="card-body">
+          <blockquote class="blockquote mb-0">
+            <p style="color:black; text-shadow: none;">{{text.text}}</p>
+            <footer class="blockquote-footer" style="color:black; text-shadow: none;">Date de création : <cite title="Source Title">{{text.created_at}}</cite></footer>
+            <footer class="blockquote-footer" style="color:black; text-shadow: none;">Dernière modification : <cite title="Source Title">{{text.modified_at}}</cite></footer>
+            <footer class="blockquote-footer" style="color:black; text-shadow: none;"><span class="badge badge-pill badge-primary">{{text.emotion}}</span></footer>
+          </blockquote>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
