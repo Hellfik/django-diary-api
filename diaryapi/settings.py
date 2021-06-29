@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'base.apps.BaseConfig',
     'crispy_forms',
     'rest_framework',
+    'mathfilters',
     # Django apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -149,6 +150,9 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 REST_FRAMEWORK = { 
     'DEFAULT_SCHEMA_CLASS' : 'rest_framework.schemas.coreapi.AutoSchema',
+    "DEFAULT_PERMISSION8CLASSES": [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     'PAGE_SIZE': 10
     

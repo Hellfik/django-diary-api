@@ -1,24 +1,82 @@
 {% extends "base/base.html" %}
 {% load static %}
+{% load mathfilters %}
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-6">
+            <h1>My profile</h1>
             <div class="card" style="width:400px">
                 <img class="card-img-top" src="https://i.pravatar.cc/" alt="Card image">
                 <div class="card-body">
                   <h4 class="card-title">Profile</h4>
-                  <p class="card-text" style="color:black"   )=^>Username : {{user.username}}</p>
-                  <p class="card-text" style="color:black">Email : user.example@gmail.com</p>
+                  <p class="card-text" style="color:black">Username : {{user.username | capfirst}}</p>
+                  <p class="card-text" style="color:black">Email : {{user.email}}</p>
                   <p class="card-text" style="color:black">Admin : {% if user.is_staff %} Yes ✅ {% else %} No ❌ {% endif %} </p>
+                  <p class="card-text" style="color:black">Join Date : {{user.date_joined}}</p>
                   <a href="#" class="btn btn-primary">Edit</a>
                 </div>
             </div>
         </div>
         <div class="col-6">
-
+            <h1>Emotions Weel</h1>
+            <canvas id="myChart" width="400" height="400"></canvas>
+            <table class="table table-bordered mt-3">
+                <thead>
+                  <tr>
+                    <th>Happy</th>
+                    <th>Sadness</th>
+                    <th>Anger</th>
+                    <th>Fear</th>
+                    <th>Love</th>
+                    <th>Surprise</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{ per_cent_happy }} %</td>
+                    <td>{{ per_cent_sadness }} %</td>
+                    <td>{{ per_cent_anger }} %</td>
+                    <td>{{ per_cent_fear }} %</td>
+                    <td>{{ per_cent_love }} %</td>
+                    <td>{{ per_cent_surprise }} %</td>
+                  </tr>
+                </tbody>
+              </table>
         </div>
 
     </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: ['happy', 'sadness', 'anger', 'fear', 'love', 'surprise'],
+        datasets: [{
+            label: 'Emotion weel',
+            data: ['{{texts_happy}}', '{{texts_sadness}}', '{{texts_anger}}', '{{texts_fear}}', '{{texts_love}}', '{{texts_surprise}}'],
+            backgroundColor: [
+                'rgba(255, 99, 132)',
+                'rgba(54, 162, 235)',
+                'rgba(255, 206, 86)',
+                'rgba(75, 192, 192)',
+                'rgba(153, 102, 255)',
+                'rgba(255, 159, 64)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    }
+});
+</script>
 {% endblock content %}

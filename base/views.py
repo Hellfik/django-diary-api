@@ -19,6 +19,8 @@ from .models import Text
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from rest_framework.pagination import PageNumberPagination
+from django.core.paginator import Paginator
 
 import pickle
 
@@ -27,7 +29,37 @@ def homePage(request):
     return render(request, 'base/home.html')
 
 def profilePage(request):
-    return render(request, 'base/profile.html')
+    current_user = request.user
+    texts = Text.objects.filter(client=current_user.id).count()
+    texts_happy = Text.objects.filter(client=current_user.id, emotion="happy").count()
+    texts_sadness = Text.objects.filter(client=current_user.id, emotion="sadness").count()
+    texts_anger = Text.objects.filter(client=current_user.id, emotion="anger").count()
+    texts_fear = Text.objects.filter(client=current_user.id, emotion="fear").count()
+    texts_love = Text.objects.filter(client=current_user.id, emotion="love").count()
+    texts_surprise = Text.objects.filter(client=current_user.id, emotion="surprise").count()
+    per_cent_happy = round((texts_happy/texts),2) * 100
+    per_cent_sadness = round((texts_sadness/texts),2) * 100
+    per_cent_anger = round((texts_anger/texts),2) * 100
+    per_cent_fear = round((texts_fear/texts),2) * 100
+    per_cent_love = round((texts_love/texts),2) * 100
+    per_cent_surprise = round((texts_surprise/texts),2) * 100
+    #texts2 = Text.objects.filter(emotion="happy").count()
+    context = {
+        "texts": texts,
+        "texts_happy": texts_happy,
+        "texts_sadness": texts_sadness,
+        "texts_anger": texts_anger,
+        "texts_fear": texts_fear,
+        "texts_love": texts_love,
+        "texts_surprise": texts_surprise,
+        "per_cent_happy": per_cent_happy,
+        "per_cent_sadness": per_cent_sadness,
+        "per_cent_anger": per_cent_anger,
+        "per_cent_fear": per_cent_fear,
+        "per_cent_love": per_cent_love,
+        "per_cent_surprise": per_cent_surprise,
+    }
+    return render(request, 'base/profile.html', context)
 
 class CustomLoginView(LoginView):
     template_name = 'base/login.html'
@@ -69,6 +101,7 @@ class RegisterView(FormView):
 class TextList(LoginRequiredMixin,ListView):
     model = Text
     context_object_name = 'texts'
+    #paginate_by = 10
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

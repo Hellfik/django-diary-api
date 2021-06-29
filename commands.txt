@@ -2,6 +2,8 @@
 
 pip install djangorestframework
 pip install coreapi
+pip install faker
+pip install django-mathfilters
 
 python manage.py startapp api 
 python manage.py startapp base
