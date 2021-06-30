@@ -1,19 +1,20 @@
-{% extends "base/base.html" %}
+{% extends "protected/base.html" %}
 {% load static %}
 {% load mathfilters %}
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-6">
-            <h1 class="home-title">My profile</h1>
-            <div class="card" style="width:400px">
+            <h1 class="home-title">{{current_user.username | capfirst}}'s profile</h1>
+            <div class="card" style="width:400px; border:none; border-radius: 0;">
                 <img class="card-img-top" src="https://i.pravatar.cc/" alt="Card image">
                 <div class="card-body">
                   <h4 class="card-title">Profile</h4>
-                  <p class="card-text" style="color:black">Username : {{user.username | capfirst}}</p>
-                  <p class="card-text" style="color:black">Email : {{user.email}}</p>
-                  <p class="card-text" style="color:black">Admin : {% if user.is_staff %} Yes ✅ {% else %} No ❌ {% endif %} </p>
-                  <p class="card-text" style="color:black">Join Date : {{user.date_joined}}</p>
+                  <p class="card-text" style="color:black">Username : {{current_user.username | capfirst}}</p>
+                  <p class="card-text" style="color:black">Email : {{current_user.email}}</p>
+                  <p class="card-text" style="color:black">Admin : {% if current_user.is_staff %} Yes ✅ {% else %} No ❌ {% endif %} </p>
+                  <p class="card-text" style="color:black">Join Date : {{current_user.date_joined}}</p>
+                  <p class="card-text" style="color:black">Last login : {{current_user.last_login}}</p>
                   <a href="#" class="btn btn-primary">Edit</a>
                 </div>
             </div>
@@ -44,7 +45,6 @@
                 </tbody>
               </table>
         </div>
-
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

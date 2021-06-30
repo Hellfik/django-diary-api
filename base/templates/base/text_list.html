@@ -2,10 +2,19 @@
 
 {% block content%}
     {% include 'base/includes/messages.html' %}
-    <form id="search" action="#" method="get">
-        <input type="text" name="search" id="search" placeholder="Rechercher" value={{search}}>
-        <input type="submit" value="Rechercher">
-    </form>
+    <div class="container">
+        <form id="search" action="#" method="get">
+            <div class="row">
+                <div class="form-group col-8">
+                    <input class="form-control" type="text" name="search" id="search" placeholder="Rechercher" value={{search}}> 
+                </div>
+                <div class="col-4">
+                    <input type="submit" value="Search">
+                </div>
+            </div>
+        </form>
+
+    </div>
    <h1 class="mt-4">Mes textes</h1>
    <a href="{% url 'text-create' %}" class="btn my-5">+ Ajouter un texte</a>
   
@@ -16,6 +25,7 @@
           <tr>
             <th scope="col">#</th>
             <th scope="col">Texte</th>
+            <th scope="col">Emotion</th>
             <th scope="col">Date de création</th>
             <th scope="col">Date de modification</th>
             <th colspan="3">Actions</th>
@@ -29,6 +39,9 @@
                     </td>
                     <td>
                         {{text.text | slice:":20"}}...
+                    </td>
+                    <td>
+                        {{text.emotion}}...
                     </td>
                     <td>
                         {{text.created_at}}

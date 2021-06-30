@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'rest_framework',
     'mathfilters',
+    'protected',
     # Django apps
     'django.contrib.admin',
     'django.contrib.auth',

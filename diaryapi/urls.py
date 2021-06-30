@@ -28,4 +28,5 @@ urlpatterns = [
         description='API for the diary coach app',
         version='1.0.0',
     ), name='openapi-schema'),
+    path('protected/', include('protected.urls')),
 ]

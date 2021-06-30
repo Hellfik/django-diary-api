@@ -1,0 +1,16 @@
+{% extends "protected/base.html" %}
+{% block content %}
+<div id="form">
+    {% include 'base/includes/messages.html' %}
+    <h1>Admin login</h1>
+    <form action="#" method="post">
+        {%csrf_token%}
+        {{form.as_p}}
+        <div class="row py-3">
+            <div class="col-12 d-flex justify-content-center">
+                <input type="submit" value="Login">
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock content %}
