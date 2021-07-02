@@ -1,0 +1,140 @@
+{% extends 'protected/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class='home-title'>Dashboard</h1>
+    <div class="row my-5">
+                <div class="col-6 mx-auto">
+                    <div class="admin_card mx-auto">
+                        <h3>Users</h3>
+                        <p>{{users_count}}</p>
+                    </div>
+                </div>
+                <div class="col-6 mx-auto">
+                    <div class="col-6 mx-auto">
+                        <div class="admin_card mx-auto">
+                            <h3>Texts</h3>
+                            <p>{{texts_count}}</p>
+                        </div>
+                    </div>
+                </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <hr class="mb-5">
+            <h1 class='home-title'>User List</h1>
+            <a href="" class="btn mb-5">Create User</a>
+            <table class="table mt-5">
+                <thead>
+                  <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Date joined</th>
+                    <th>Last login</th>
+                    <th colspan="2">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    {% if not user.is_staff %}
+                    <tr>
+                        <td>{{user.username}}</td>
+                        <td>{{user.email}}</td>
+                        <td>{{user.date_joined}}</td>
+                        <td>{{user.last_login}}</td>
+                        <td><a class="btn btn-primary" href="{%url 'profile_admin' user.id %}">More</a></td>
+                        <td><a class="btn btn-primary" href="{%url 'api-user-delete' user.id %}">Delete</a></td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+              </table>
+        </div>
+    </div>
+    <hr class="my-5">
+    <h1 class="home-title">Global Emotion Weel</h1>
+    <form action="#" method="GET">
+        <div class="row">
+            <div class="form-group col-4">
+                <label for="date">Start date</label>
+                <input type="date" class="form-control" name="date1" value={{date1}}>
+            </div>
+            <div class="form-group col-4">
+                <label for="date">End date</label>
+                <input type="date" class="form-control"name="date2" value="{{date2}}">
+            </div>
+            <div class="col-4 d-flex justify-content-center align-items-center">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+    {% if search %}
+    <div class="row">
+        <div class="col-12">
+            <p>{{result_nb_text}} text{% if result_nb_text > 1 %}s {% endif %} found between {{date1}} and {{date2}}</p>
+        </div>
+    </div>
+    {% endif %}
+    <div class="row my-5">
+        <div class="col-8">
+            <canvas id="myChart" width="400" height="400"></canvas>
+        </div>
+        <div class="col-4 d-flex align-items-center">
+            <table class="table table-bordered mt-3">
+                <thead>
+                  <tr>
+                    <th>Happy</th>
+                    <th>Sadness</th>
+                    <th>Anger</th>
+                    <th>Fear</th>
+                    <th>Love</th>
+                    <th>Surprise</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{ per_cent_happy }} %</td>
+                    <td>{{ per_cent_sadness }} %</td>
+                    <td>{{ per_cent_anger }} %</td>
+                    <td>{{ per_cent_fear }} %</td>
+                    <td>{{ per_cent_love }} %</td>
+                    <td>{{ per_cent_surprise }} %</td>
+                  </tr>
+                </tbody>
+              </table>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'polarArea',
+    data: {
+        labels: ['happy', 'sadness', 'anger', 'fear', 'love', 'surprise'],
+        datasets: [{
+            label: 'Emotion weel',
+            data: ['{{texts_happy}}', '{{texts_sadness}}', '{{texts_anger}}', '{{texts_fear}}', '{{texts_love}}', '{{texts_surprise}}'],
+            backgroundColor: [
+                'rgba(255, 99, 132)',
+                'rgba(54, 162, 235)',
+                'rgba(255, 206, 86)',
+                'rgba(75, 192, 192)',
+                'rgba(153, 102, 255)',
+                'rgba(255, 159, 64)'
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    }
+});
+</script>
+{% endblock content %}

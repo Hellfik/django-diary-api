@@ -3,6 +3,18 @@
 {% load mathfilters %}
 {% block content %}
 <div class="container">
+  <div class="row mb-5">
+      <div class="col-12 mx-auto">
+          <div class="admin_card mx-auto">
+              <h3>Texts</h3>
+              {% if not search %}
+              <p>{{texts}}</p>
+              {% else %}
+              <p>{{result_nb_text}}</p>
+              {% endif %}
+          </div>
+      </div>
+  </div>
     <div class="row">
         <div class="col-6">
             <h1 class="home-title">{{current_user.username | capfirst}}'s profile</h1>
@@ -21,6 +33,28 @@
         </div>
         <div class="col-6">
             <h1 class="home-title">Emotions Weel</h1>
+            <form action="#" method="GET">
+              <div class="row">
+                  <div class="form-group col-4">
+                      <label for="date">Start date</label>
+                      <input type="date" class="form-control" name="date1" value={{date1}}>
+                  </div>
+                  <div class="form-group col-4">
+                      <label for="date">End date</label>
+                      <input type="date" class="form-control"name="date2" value="{{date2}}">
+                  </div>
+                  <div class="col-4 d-flex justify-content-center align-items-center">
+                      <button type="submit" class="btn btn-primary">Search</button>
+                  </div>
+              </div>
+          </form>
+          {% if search %}
+          <div class="row">
+              <div class="col-12">
+                  <p>{{result_nb_text}} text{% if result_nb_text > 1 %}s {% endif %} found between {{date1}} and {{date2}}</p>
+              </div>
+          </div>
+          {% endif %}
             <canvas id="myChart" width="400" height="400"></canvas>
             <table class="table table-bordered mt-3">
                 <thead>
@@ -45,6 +79,78 @@
                 </tbody>
               </table>
         </div>
+    </div>
+    <div class="row">
+      <h1 class="home-title">
+        {{ current_user.username | capfirst}}'s texts {% if search %} between {{date1}} and {{date2}} {% endif %}
+      </h1>
+      <div class="container">
+        <div class="table-responsive">
+           <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Texte</th>
+                <th scope="col">Emotion</th>
+                <th scope="col">Date de création</th>
+                <th scope="col">Date de modification</th>
+                <th colspan="3">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% if not search %}
+                  {% for text in texts_user %}
+                      <tr>
+                          <td>
+                              {{text.id}}
+                          </td>
+                          <td>
+                              {{text.text | slice:":20"}}...
+                          </td>
+                          <td>
+                              {{text.emotion}}...
+                          </td>
+                          <td>
+                              {{text.created_at}}
+                          </td>
+                          <td>
+                              {{text.modified_at}}
+                          </td>
+                          <td>
+                              <a href="{%url 'profile_text_user' text.id %}" class="btn">See</a>
+                          </td>
+                      </tr>
+                  {% empty %}
+                      <h3>Aucun text pour le moment</h3>
+                  {% endfor %}
+                {% else %}
+                  {% for text in texts_search %}
+                      <tr>
+                          <td>
+                              {{text.id}}
+                          </td>
+                          <td>
+                              {{text.text | slice:":20"}}...
+                          </td>
+                          <td>
+                              {{text.emotion}}...
+                          </td>
+                          <td>
+                              {{text.created_at}}
+                          </td>
+                          <td>
+                              {{text.modified_at}}
+                          </td>
+                          <td>
+                              <a href="{%url 'profile_text_user' text.id %}" class="btn">See</a>
+                          </td>
+                      </tr>
+                  {% empty %}
+                      <h3>Aucun text pour le moment</h3>
+                  {% endfor %}
+                  {% endif %}
+            </tbody>
+          </table>
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

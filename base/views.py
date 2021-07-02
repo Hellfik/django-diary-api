@@ -56,6 +56,9 @@ def profilePage(request):
     except Text.DoesNotExist:
         return HttpResponse(status=status.HTTP_404_NOT_FOUND)
     # Get the number of texts associated with each emotion: Will be used to create the emotion weel
+    if texts == 0:
+        texts = 1
+    
     texts_happy = Text.objects.filter(client=current_user.id, emotion="happy").count()
     texts_sadness = Text.objects.filter(client=current_user.id, emotion="sadness").count()
     texts_anger = Text.objects.filter(client=current_user.id, emotion="anger").count()

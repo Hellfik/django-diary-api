@@ -1,10 +1,34 @@
-from django.urls import path
+from django.urls import path, include
 from rest_framework.decorators import api_view
-from .views import TextDelete, TextUpdate, UserDelete, UserUpdate ,apiOverView, TextList, UserList, TextDetail, UserDetail, TextCreate, registration_view, UserDelete
-from rest_framework import routers
+from .views import (
+    TextList, 
+    TextDetail, 
+    TextCreate, 
+    TextUpdate, 
+    TextDelete, 
+    UserList, 
+    UserDetail, 
+    UserDelete, 
+    UserUpdate,
+    dashboardViewApi,
+    registration_view,  
+    apiOverView,
+    apiGetText,
+    apiDeleteUser,
+    UserViewSet,
+    TextViewSet,
+)
+from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
+)
 
-#router = routers.DefaultRouter()
-#router.register('api', apiOverView)
+router = DefaultRouter()
+router.register('users', UserViewSet, basename='users')
+router.register('texts', TextViewSet, basename='texts')
+#urlpatterns = router.urls
+
 
 # All urls for the API app
 urlpatterns = [
@@ -20,5 +44,10 @@ urlpatterns = [
     path('user-detail/<int:pk>', UserDetail, name="api-user-detail"),
     path('user-registration', registration_view, name="api-user-registration"),
     path('user-delete/<int:pk>', UserDelete, name="api-user-delete"),
-    path('user-update/<int:pk>', UserUpdate, name="api-user-update")
+    path('user-update/<int:pk>', UserUpdate, name="api-user-update"),
+    path('admin/', dashboardViewApi, name="api-texts"),
+    path('', include(router.urls)),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    #path('api-user-delete/', apiDeleteUser, name='user-delete')
 ]

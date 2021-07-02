@@ -109,6 +109,7 @@ def profilePage(request, pk):
     # Get the current logged in user
     current_user = User.objects.get(id=pk)
     # Get the number of texts associated with this user
+    texts_user = Text.objects.filter(client=current_user.id)
     texts = Text.objects.filter(client=current_user.id).count()
     # Get the number of texts associated with each emotion: Will be used to create the emotion weel
     texts_happy = Text.objects.filter(client=current_user, emotion="happy").count()
@@ -127,6 +128,7 @@ def profilePage(request, pk):
     # The context is need to retrieve data in the template
     context = {
         "texts": texts,
+        "texts_user" : texts_user,
         "texts_happy": texts_happy,
         "texts_sadness": texts_sadness,
         "texts_anger": texts_anger,
@@ -141,4 +143,44 @@ def profilePage(request, pk):
         "per_cent_surprise": per_cent_surprise,
         "current_user" : current_user
     }
+
+    if 'date1' and 'date2' in request.GET and request.GET['date1'] != '' and request.GET['date2'] != '':
+        import datetime
+        date1_input = request.GET['date1']
+        date2_input = request.GET['date2']
+        date_from = datetime.datetime.strptime(request.GET['date1'], '%Y-%m-%d')
+        date_to = datetime.datetime.strptime(request.GET['date2'], '%Y-%m-%d')
+        context['texts_search'] = Text.objects.filter(created_at__range=(date_from, date_to))
+        context['result_nb_text'] = Text.objects.filter(created_at__range=(date_from, date_to)).count()
+        context['texts_happy'] = Text.objects.filter(created_at__range=(date_from, date_to),emotion="happy").count()
+        context['texts_sadness'] = Text.objects.filter(created_at__range=(date_from, date_to),emotion="sadness").count()
+        context['texts_anger'] = Text.objects.filter(created_at__range=(date_from, date_to),emotion="anger").count()
+        context['texts_fear'] = Text.objects.filter(created_at__range=(date_from, date_to),emotion="fear").count()
+        context['texts_love'] = Text.objects.filter(created_at__range=(date_from, date_to),emotion="love").count()
+        context['texts_surprise'] = Text.objects.filter(created_at__range=(date_from, date_to),emotion="surprise").count()
+        context['date1'] = date1_input
+        context['date2'] = date2_input
+        context['search'] = True
+        context['per_cent_sadness'] = round((context['texts_sadness']/context['result_nb_text']),2) * 100
+        context['per_cent_anger'] = round((context['texts_anger']/context['result_nb_text']),2) * 100
+        context['per_cent_fear'] = round((context['texts_fear']/context['result_nb_text']),2) * 100
+        context['per_cent_love'] = round((context['texts_love']/context['result_nb_text']),2) * 100
+        context['per_cent_surprise'] = round((context['texts_surprise']/context['result_nb_text']),2) * 100
+        context['per_cent_happy'] = round((context['texts_happy']/context['result_nb_text']),2) * 100
+
     return render(request, 'protected/profile_admin.html', context)
+
+
+def profileTextView(request, pk):
+
+    # Get the current text
+    current_text = Text.objects.get(id=pk)
+    context = {}
+    context['text'] = current_text
+    context['current_user'] = current_text
+
+    return render(request, 'protected/profile_text_detail.html', context)
+
+
+
+
