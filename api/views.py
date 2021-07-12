@@ -1,12 +1,10 @@
 from django.shortcuts import render
-from django.http import JsonResponse, HttpResponse
+from django.http import HttpResponse
 from rest_framework.decorators import api_view, permission_classes
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.response import Response
-from rest_framework.views import set_rollback
 from .serialiser import TextSerialiser, UserSerialiser
-from rest_framework.renderers import JSONRenderer, TemplateHTMLRenderer
-from rest_framework import serializers, status
+from rest_framework import status
 from base.models import Text
 from django.contrib.auth.models import User
 from rest_framework.permissions import IsAuthenticated
@@ -189,8 +187,7 @@ def UserUpdate(request, pk):
 
 
 
-###########################################################################
-#                                                                         #
+###########################################################################                                                                        #
 #                                API                                      #
 ###########################################################################
 
@@ -311,6 +308,10 @@ def apiDeleteUser(request):
     
     return context
 
+
+#####################
+#    MODELVIEWSET   #
+#####################
 
 class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerialiser

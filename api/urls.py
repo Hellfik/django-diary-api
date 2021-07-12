@@ -1,3 +1,7 @@
+##############
+#   IMPORT   #
+##############
+
 from django.urls import path, include
 from rest_framework.decorators import api_view
 from .views import (
@@ -13,8 +17,6 @@ from .views import (
     dashboardViewApi,
     registration_view,  
     apiOverView,
-    apiGetText,
-    apiDeleteUser,
     UserViewSet,
     TextViewSet,
 )
@@ -29,6 +31,10 @@ router.register('users', UserViewSet, basename='users')
 router.register('texts', TextViewSet, basename='texts')
 #urlpatterns = router.urls
 
+
+##################
+#    API URLS    #
+##################
 
 # All urls for the API app
 urlpatterns = [

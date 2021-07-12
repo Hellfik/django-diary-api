@@ -13,3 +13,6 @@ python manage.py runserver => Run the server
 python manage.py makemigrations => Prepare changes for the database
 python manage.py migrate => Apply changes to the database
 python manage.py createsuperuser => Create admin user
+
+# Test Commands
+./manage.py test
