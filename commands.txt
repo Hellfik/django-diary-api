@@ -5,9 +5,10 @@ pip install coreapi
 pip install faker
 pip install django-mathfilters
 pip install djangorestframework-simplejwt
+pip install coverage # For testing
 
-python manage.py startapp api 
-python manage.py startapp base
+python manage.py startapp api => Creates api app
+python manage.py startapp base => Creates base app
 python manage.py runserver => Run the server
 python manage.py makemigrations => Prepare changes for the database
 python manage.py migrate => Apply changes to the database
