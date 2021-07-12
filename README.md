@@ -31,6 +31,61 @@ Ce que le coach doit pouvoir faire:
 
 # API endpoints
 
+Load the API schema, it will display all of the API endpoints
+```
+$ coreapi get http://127.0.0.1:8000/docs/
+```
+API endpoints for the **Text entity**:
+
+texts > list GET
+```
+/api/texts/
+```
+texts > create POST
+```
+/api/texts/
+```
+
+texts > read GET
+```
+/api/texts/{id}
+```
+
+texts > update PUT
+```
+/api/texts/{id}
+```
+
+texts > delete DELETE
+```
+api/texts/{id}
+```
+
+API endpoints for the **User entity**:
+
+users > list GET
+```
+/api/users/
+```
+users > create POST
+```
+/api/users/
+```
+
+users > read GET
+```
+/api/users/{id}
+```
+
+users > update PUT
+```
+/api/users/{id}
+```
+
+users > delete DELETE
+```
+api/users/{id}
+```
 
 
 ## File structure
